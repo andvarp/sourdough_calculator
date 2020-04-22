@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:sourdough_calculator/data/sourdough.dart';
+import 'package:sourdough_calculator/data/sourdough_enum.dart';
 
 class SourdoughProvider extends ChangeNotifier {
   Sourdough sourdough = sourdough60;
 
   void changeFlourAmount(int amount) {
-//    sourdough.setFlourAmount(amount);
     sourdough = sourdough.copyWith(flourAmount: amount);
     notifyListeners();
   }

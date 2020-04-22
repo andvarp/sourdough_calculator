@@ -3,11 +3,16 @@ import 'package:provider/provider.dart';
 import 'package:sourdough_calculator/data/sourdough_provider.dart';
 import 'package:sourdough_calculator/home_screen.dart';
 
+import 'data/suggested_recipes.dart';
+
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    print('***********-------------');
+    print(recipe60);
+
     return MultiProvider(
         providers: [
           ChangeNotifierProvider(

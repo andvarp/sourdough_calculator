@@ -175,14 +175,3 @@ Sourdough sourdough60 = Sourdough(
   whiteFlourPercent: setPercent(80),
   wholemealFlourPercent: setPercent(20),
 );
-
-enum SourdoughEnum {
-  flourAmount,
-  flourPercent,
-  hydrationPercent,
-  saltPercent,
-  sourdoughPercent,
-  waterInSourdoughPercent,
-  whiteFlourPercent,
-  wholemealFlourPercent,
-}

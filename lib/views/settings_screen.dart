@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sourdough_calculator/data/sourdough.dart';
+import 'package:sourdough_calculator/data/sourdough_enum.dart';
 import 'package:sourdough_calculator/data/sourdough_provider.dart';
 import 'package:sourdough_calculator/utils.dart';
 import 'package:sourdough_calculator/widgets/slider_with_label.dart';
-
-import '../constants.dart';
 
 class SettingsView extends StatefulWidget {
   @override
