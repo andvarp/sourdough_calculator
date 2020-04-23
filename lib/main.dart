@@ -1,34 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sourdough_calculator/data/sourdough_provider.dart';
 import 'package:sourdough_calculator/home_screen.dart';
-
-import 'data/suggested_recipes.dart';
+import 'package:sourdough_calculator/data/recipe_provider.dart';
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    print('***********-------------');
-    print(recipe60);
-
     return MultiProvider(
-        providers: [
-          ChangeNotifierProvider(
-            create: (_) => SourdoughProvider(),
-          ),
-        ],
-        child: Consumer<SourdoughProvider>(
-          builder: (context, sourdoughProvider, _) {
-            return MaterialApp(
-              title: 'Sourdough calculator',
-              theme: ThemeData(
-                primarySwatch: Colors.orange,
-              ),
-              home: HomeScreen(),
-            );
-          },
-        ));
+      providers: [
+        ChangeNotifierProvider(create: (_) => RecipeProvider()),
+      ],
+      child: Builder(
+        builder: (context) {
+          return MaterialApp(
+            title: 'Sourdough calculator',
+            theme: ThemeData(
+              primarySwatch: Colors.orange,
+            ),
+            home: HomeScreen(),
+          );
+        },
+      ),
+    );
   }
 }

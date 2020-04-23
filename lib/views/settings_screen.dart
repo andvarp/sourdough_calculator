@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sourdough_calculator/data/sourdough_enum.dart';
-import 'package:sourdough_calculator/data/sourdough_provider.dart';
+import 'package:sourdough_calculator/data/ingredient.dart';
+import 'package:sourdough_calculator/data/recipe_provider.dart';
 import 'package:sourdough_calculator/utils.dart';
 import 'package:sourdough_calculator/widgets/slider_with_label.dart';
 
@@ -13,7 +13,7 @@ class SettingsView extends StatefulWidget {
 class _SettingsViewState extends State<SettingsView> {
   @override
   Widget build(BuildContext context) {
-    final SourdoughProvider _provider = Provider.of<SourdoughProvider>(context);
+    final RecipeProvider _provider = Provider.of<RecipeProvider>(context);
 
     return Center(
       child: SingleChildScrollView(
@@ -36,98 +36,18 @@ class _SettingsViewState extends State<SettingsView> {
                 color: Colors.teal,
               ),
               child: Column(
-                children: <Widget>[
-                  SliderWithLabel(
-                    invertColors: true,
-                    label:
-                        'Hydratation: ${printPercent(_provider.sourdough.hydrationPercent)}',
-                    value: _provider.sourdough.hydrationPercent * 100,
-                    onSliderChanged: onSliderChanged(
-                        _provider, SourdoughEnum.hydrationPercent),
-                    min: 50,
-                    max: 120,
-                    startLabel: printPercent(.5),
-                    endLabel: printPercent(1.2),
-                    mapValueToString: (double value) =>
-                        printPercent(setPercent(value.toInt())),
-                  ),
-//                  todo make other card for sourdough
-                  SliderWithLabel(
-                    invertColors: true,
-                    label:
-                        'Sourdough: ${printPercent(_provider.sourdough.sourdoughPercent)}',
-                    value: _provider.sourdough.sourdoughPercent * 100,
-                    onSliderChanged: onSliderChanged(
-                        _provider, SourdoughEnum.sourdoughPercent),
-                    min: 0,
-                    max: 60,
-                    startLabel: printPercent(0),
-                    endLabel: printPercent(0.6),
-                    mapValueToString: (double value) =>
-                        printPercent(setPercent(value.toInt())),
-                  ),
-                  SliderWithLabel(
-                    invertColors: true,
-                    label:
-                        'Water inside the sourdough (hard sourdough recommended): ${printPercent(_provider.sourdough.waterInSourdoughPercent)}',
-                    value: _provider.sourdough.waterInSourdoughPercent * 100,
-                    onSliderChanged: onSliderChanged(
-                        _provider, SourdoughEnum.waterInSourdoughPercent),
-                    min: 0,
-                    max: 100,
-                    startLabel: printPercent(0),
-                    endLabel: printPercent(1),
-                    mapValueToString: (double value) =>
-                        printPercent(setPercent(value.toInt())),
-                  ),
-                  SliderWithLabel(
-                    invertColors: true,
-                    label:
-                        'Salt: ${printPercent(_provider.sourdough.saltPercent)}',
-                    value: _provider.sourdough.saltPercent * 100,
-                    onSliderChanged:
-                        onSliderChanged(_provider, SourdoughEnum.saltPercent),
-                    min: 0,
-                    max: 10,
-                    startLabel: printPercent(0),
-                    endLabel: printPercent(0.1),
-                    mapValueToString: (double value) =>
-                        printPercent(setPercent(value.toInt())),
-                  ),
-                  SliderWithLabel(
-                    invertColors: true,
-                    label:
-                        'White flour percent: ${printPercent(_provider.sourdough.whiteFlourPercent)}',
-                    value: _provider.sourdough.whiteFlourPercent * 100,
-                    onSliderChanged: onSliderChanged(
-                        _provider, SourdoughEnum.whiteFlourPercent),
-                    min: 0,
-                    max: 100,
-                    startLabel: printPercent(0),
-                    endLabel: printPercent(1),
-                    mapValueToString: (double value) =>
-                        printPercent(setPercent(value.toInt())),
-                  ),
-                  // todo make in data layer this values to be dependant
-                  SliderWithLabel(
-                    invertColors: true,
-                    label:
-                        'Wholemeal flour percent: ${printPercent(_provider.sourdough.wholemealFlourPercent)}',
-                    value: _provider.sourdough.wholemealFlourPercent * 100,
-                    onSliderChanged: onSliderChanged(
-                        _provider, SourdoughEnum.wholemealFlourPercent),
-                    min: 0,
-                    max: 100,
-                    startLabel: printPercent(0),
-                    endLabel: printPercent(1),
-                    mapValueToString: (double value) =>
-                        printPercent(setPercent(value.toInt())),
-                  ),
-                  SizedBox(
-                    height: 200,
-                  )
-                ],
+                children: buildIngredients(
+                  provider: _provider,
+                  ingredients: _provider.recipe.ingredients,
+                  parent: null,
+                ),
               ),
+            ),
+            Card(
+              child: Text(_provider.recipe.toString()),
+            ),
+            SizedBox(
+              height: 40.0,
             ),
           ],
         ),
@@ -136,24 +56,64 @@ class _SettingsViewState extends State<SettingsView> {
   }
 
   Function onSliderChanged(
-      SourdoughProvider _provider, SourdoughEnum sourdoughEnum) {
+      RecipeProvider _provider, Ingredient ingredient, Ingredient parent) {
     return (double value) {
       double newValue;
-      switch (sourdoughEnum) {
-        case SourdoughEnum.hydrationPercent:
-        case SourdoughEnum.sourdoughPercent:
-        case SourdoughEnum.waterInSourdoughPercent:
-        case SourdoughEnum.whiteFlourPercent:
-        case SourdoughEnum.wholemealFlourPercent:
-          newValue = (value / 5).roundToDouble() * 5;
-          break;
-        case SourdoughEnum.saltPercent:
+      switch (ingredient.type) {
+
+//          newValue = (value / 5).roundToDouble() * 5;
+//          break;
+        case IngredientType.whiteFlour:
+        case IngredientType.wholeFlour:
+        case IngredientType.fat:
+        case IngredientType.other:
+        case IngredientType.sourdough:
+        case IngredientType.sugar:
+        case IngredientType.flour:
+        case IngredientType.water:
+        case IngredientType.salt:
           newValue = (value).roundToDouble();
           break;
         default:
           break;
       }
-      _provider.changePercent(sourdoughEnum, setPercent(newValue.toInt()));
+
+      _provider.changePercent(ingredient, setPercent(newValue.toInt()), parent);
     };
+  }
+
+  List<Widget> buildIngredients(
+      {RecipeProvider provider,
+      Map<IngredientType, Ingredient> ingredients,
+      Ingredient parent}) {
+    List<Widget> widgets = [];
+    ingredients.forEach((type, ingredient) {
+      if (ingredient.valueBounds != null) {
+        widgets.add(buildIngredient(provider, ingredient, parent));
+      }
+      if (ingredient.subIngredients != null) {
+        widgets.addAll(buildIngredients(
+            provider: provider,
+            ingredients: ingredient.subIngredients,
+            parent: ingredient));
+      }
+    });
+    return widgets;
+  }
+
+  Widget buildIngredient(
+      RecipeProvider _provider, Ingredient ingredient, Ingredient parent) {
+    return SliderWithLabel(
+      invertColors: true,
+      label: '${ingredient.name}: ${printPercent(ingredient.percent)}',
+      value: ingredient.percent * 100,
+      onSliderChanged: onSliderChanged(_provider, ingredient, parent),
+      min: ingredient.valueBounds[0],
+      max: ingredient.valueBounds[1],
+      startLabel: printPercent(setPercent(ingredient.valueBounds[0].toInt())),
+      endLabel: printPercent(setPercent(ingredient.valueBounds[1].toInt())),
+      mapValueToString: (double value) =>
+          printPercent(setPercent(value.toInt())),
+    );
   }
 }

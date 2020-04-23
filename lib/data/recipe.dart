@@ -3,16 +3,18 @@ import 'package:sourdough_calculator/constants.dart';
 import 'package:sourdough_calculator/utils.dart';
 
 abstract class RecipeAbstract {
-  int flourAmount = kInitialFlourAMount;
+  int flourAmount;
   Map<IngredientType, Ingredient> ingredients;
   String toString();
 }
 
 class Recipe extends RecipeAbstract {
   Recipe({
+    int flourAmount = kInitialFlourAMount,
     Map<IngredientType, Ingredient> ingredients =
         const <IngredientType, Ingredient>{},
   }) {
+    this.flourAmount = flourAmount;
     this.ingredients = ingredients;
 
     computeValues();
@@ -46,12 +48,33 @@ class Recipe extends RecipeAbstract {
       }
       computeSubIngredients(ingredient.value, ingredient.subIngredients);
     });
-
-    print(this);
   }
 
   void setFlourAmount(int amount) {
     flourAmount = amount;
+    computeValues();
+  }
+
+  void setIngredient(Ingredient ingredient, double percent, Ingredient parent) {
+    if (parent == null) {
+      ingredient.percent = percent;
+    }
+    if (parent != null && parent.subIngredients.length > 1) {
+      List<IngredientType> subIngredientKeys = parent.subIngredients.keys
+          .toList()
+          .where((type) => type != ingredient.type)
+          .toList();
+
+      parent.subIngredients.forEach((type, subIngredient) {
+        if (type == ingredient.type) {
+          subIngredient.percent = percent;
+        } else {
+          subIngredient.percent =
+              (setPercent(100) - percent) / subIngredientKeys.length;
+        }
+      });
+    }
+
     computeValues();
   }
 
@@ -65,19 +88,36 @@ class Recipe extends RecipeAbstract {
     }
   }
 
+  bool checkIsValid() {
+    double allPercents = 0;
+    double allValues = 0;
+    bool isValid;
+    ingredients.forEach((type, ingredient) {
+      if (type != IngredientType.sourdough) {
+        allPercents += ingredient.percent;
+      }
+      allValues += ingredient.value;
+    });
+
+    isValid = allPercents * flourAmount == allValues;
+    return isValid;
+  }
+
   String toString() {
-    String print = '**Flour amount => $flourAmount \n';
+    String print = 'isValid? => ${checkIsValid()} \n';
+
+    print += '**Flour amount => $flourAmount \n';
 
     ingredients.forEach((IngredientType type, Ingredient ingredient) {
       print +=
-          '**Ingredient \'${ingredient.name}\' => ${ingredient.value}gr \n';
+          '**Ingredient \'${ingredient.name}\' |${printPercent(ingredient.percent)}| => ${ingredient.value}gr \n';
       if (ingredient.subIngredients != null) {
         Map<IngredientType, Ingredient> subIngredients =
             ingredient.subIngredients;
         subIngredients
             .forEach((IngredientType subType, Ingredient subIngredient) {
           print +=
-              '**\tSubIngredient \'${subIngredient.name}\' => ${subIngredient.value}gr\n';
+              '**\tSubIngredient \'${subIngredient.name}\' |${printPercent(subIngredient.percent)}| => ${subIngredient.value}gr\n';
         });
       }
     });
