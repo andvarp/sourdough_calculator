@@ -1,3 +1,5 @@
+[![Codemagic build status](https://api.codemagic.io/apps/5ea1335f2173e43cf2049b41/5ea1335f2173e43cf2049b40/status_badge.svg)](https://codemagic.io/apps/5ea1335f2173e43cf2049b41/5ea1335f2173e43cf2049b40/latest_build)
+
 # sourdough_calculator
 
 Sourdough Recipe calculator

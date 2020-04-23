@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:sourdough_calculator/data/recipe.dart';
 import 'package:sourdough_calculator/data/recipe_provider.dart';
 import 'package:sourdough_calculator/constants.dart';
+import 'package:sourdough_calculator/i18n/app_localizations.dart';
 import 'package:sourdough_calculator/utils.dart';
 import 'package:sourdough_calculator/widgets/pie_chart_card.dart';
 import 'package:sourdough_calculator/widgets/slider_with_label.dart';
@@ -52,6 +53,7 @@ class _ResultsViewState extends State<ResultsView> {
       padding: EdgeInsets.symmetric(vertical: 20.0),
       child: Column(
         children: <Widget>[
+          Text(AppLocalizations.of(context).translate('title')),
           SliderWithLabel(
             label: 'Select the amount of flour:',
             value: _flourAmount.toDouble(),
