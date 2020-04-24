@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sourdough_calculator/data/ingredient.dart';
 import 'package:sourdough_calculator/data/recipe_provider.dart';
+import 'package:sourdough_calculator/i18n/sample_change_locale.dart';
 import 'package:sourdough_calculator/utils.dart';
 import 'package:sourdough_calculator/widgets/slider_with_label.dart';
 
@@ -46,6 +47,7 @@ class _SettingsViewState extends State<SettingsView> {
             Card(
               child: Text(_provider.recipe.toString()),
             ),
+            SampleChangeLocale(),
             SizedBox(
               height: 40.0,
             ),
@@ -60,9 +62,6 @@ class _SettingsViewState extends State<SettingsView> {
     return (double value) {
       double newValue;
       switch (ingredient.type) {
-
-//          newValue = (value / 5).roundToDouble() * 5;
-//          break;
         case IngredientType.whiteFlour:
         case IngredientType.wholeFlour:
         case IngredientType.fat:
@@ -105,7 +104,7 @@ class _SettingsViewState extends State<SettingsView> {
       RecipeProvider _provider, Ingredient ingredient, Ingredient parent) {
     return SliderWithLabel(
       invertColors: true,
-      label: '${ingredient.name}: ${printPercent(ingredient.percent)}',
+      label: '${ingredient.name}: ${printAmount(ingredient.value.toInt())}',
       value: ingredient.percent * 100,
       onSliderChanged: onSliderChanged(_provider, ingredient, parent),
       min: ingredient.valueBounds[0],

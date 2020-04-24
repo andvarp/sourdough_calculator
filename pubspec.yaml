@@ -29,6 +29,7 @@ dependencies:
   backdrop: ^0.2.12
   fl_chart: ^0.9.2
   shared_preferences: ^0.5.7
+  logger: ^0.9.1
   flutter_localizations:
     sdk: flutter
 

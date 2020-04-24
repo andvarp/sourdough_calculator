@@ -104,24 +104,24 @@ class Recipe extends RecipeAbstract {
   }
 
   String toString() {
-    String print = 'isValid? => ${checkIsValid()} \n';
+    String print = '=== isValid? ==> ${checkIsValid()} \n';
 
-    print += '**Flour amount => $flourAmount \n';
+    print += 'Flour amount => $flourAmount \n';
 
     ingredients.forEach((IngredientType type, Ingredient ingredient) {
       print +=
-          '**Ingredient \'${ingredient.name}\' |${printPercent(ingredient.percent)}| => ${ingredient.value}gr \n';
+          '   -- Ingredient: ${ingredient.name} [ ${printPercent(ingredient.percent)} => ${ingredient.value}g ] \n';
       if (ingredient.subIngredients != null) {
         Map<IngredientType, Ingredient> subIngredients =
             ingredient.subIngredients;
         subIngredients
             .forEach((IngredientType subType, Ingredient subIngredient) {
           print +=
-              '**\tSubIngredient \'${subIngredient.name}\' |${printPercent(subIngredient.percent)}| => ${subIngredient.value}gr\n';
+              '   |     SubIngredient: ${subIngredient.name} [${printPercent(subIngredient.percent)} => ${subIngredient.value.toInt()}g ] \n';
         });
       }
     });
 
-    return print;
+    return print += '==============================';
   }
 }
