@@ -25,9 +25,9 @@ class _ResultsViewState extends State<ResultsView> {
 
   List<PieDataEntry> getPieData(Recipe _recipe) {
     List<Color> colors = [
+      Color(0xff845bef),
       Color(0xfff8b250),
       Color(0xff0293ee),
-      Color(0xff845bef),
       Color(0xff13d38e),
     ];
 
