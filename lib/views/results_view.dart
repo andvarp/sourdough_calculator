@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sourdough_calculator/i18n/i18n_provider.dart';
 import 'package:sourdough_calculator/data/recipe.dart';
 import 'package:sourdough_calculator/data/recipe_provider.dart';
 import 'package:sourdough_calculator/constants.dart';
-import 'package:sourdough_calculator/i18n/app_localizations.dart';
 import 'package:sourdough_calculator/utils.dart';
 import 'package:sourdough_calculator/widgets/pie_chart_card.dart';
 import 'package:sourdough_calculator/widgets/slider_with_label.dart';
@@ -15,31 +13,8 @@ class ResultsView extends StatefulWidget {
 }
 
 class _ResultsViewState extends State<ResultsView> {
-  I18nProvider _languageProvider;
-  I18n _localization;
   RecipeProvider _provider;
   int _flourAmount;
-
-  didChangeDependencies() {
-    super.didChangeDependencies();
-    I18nProvider _languageProvider = Provider.of<I18nProvider>(context);
-    I18n _localization = I18n.of(context);
-    RecipeProvider _provider = Provider.of<RecipeProvider>(context);
-    int _flourAmount = _provider.recipe.flourAmount;
-
-    if (_localization.hashCode != this._localization.hashCode) {
-      this._localization = _localization;
-    }
-
-    if (_languageProvider.hashCode != this._languageProvider.hashCode) {
-      this._languageProvider = _languageProvider;
-    }
-
-    if (_provider.hashCode != this._provider.hashCode) {
-      this._provider = _provider;
-      this._flourAmount = _flourAmount;
-    }
-  }
 
   Function onSliderChanged(RecipeProvider _provider) {
     return (double value) {
@@ -72,6 +47,9 @@ class _ResultsViewState extends State<ResultsView> {
 
   @override
   Widget build(BuildContext context) {
+    _provider = Provider.of<RecipeProvider>(context);
+    _flourAmount = _provider.recipe.flourAmount;
+
     return SingleChildScrollView(
       scrollDirection: Axis.vertical,
       padding: EdgeInsets.symmetric(vertical: 20.0),

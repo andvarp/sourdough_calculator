@@ -15,7 +15,6 @@ class RecipeProvider extends ChangeNotifier {
 //    ingredient.percent = percent;
 //    recipe.computeValues();
     recipe.setIngredient(ingredient, percent, parent);
-
     notifyListeners();
   }
 }

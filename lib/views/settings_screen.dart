@@ -12,9 +12,10 @@ class SettingsView extends StatefulWidget {
 }
 
 class _SettingsViewState extends State<SettingsView> {
+  RecipeProvider _provider;
   @override
   Widget build(BuildContext context) {
-    final RecipeProvider _provider = Provider.of<RecipeProvider>(context);
+    _provider = Provider.of<RecipeProvider>(context);
 
     return Center(
       child: SingleChildScrollView(
