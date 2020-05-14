@@ -4,15 +4,14 @@ import 'package:sourdough_calculator/utils.dart';
 
 abstract class RecipeAbstract {
   int flourAmount;
-  Map<IngredientType, Ingredient> ingredients;
+  List<Ingredient> ingredients;
   String toString();
 }
 
-class Recipe extends RecipeAbstract {
+class Recipe extends RecipeAbstract{
   Recipe({
     int flourAmount = kInitialFlourAMount,
-    Map<IngredientType, Ingredient> ingredients =
-        const <IngredientType, Ingredient>{},
+    List<Ingredient> ingredients = const <Ingredient>[],
   }) {
     this.flourAmount = flourAmount;
     this.ingredients = ingredients;
@@ -20,34 +19,52 @@ class Recipe extends RecipeAbstract {
     computeValues();
   }
 
+  Map<IngredientType, Ingredient> getIngredientsMap (List<Ingredient> ingredients) {
+    Map<IngredientType, Ingredient> map = new Map<IngredientType, Ingredient>();
+    if (ingredients != null) {
+      ingredients.forEach((ingredient) {
+        map[ingredient.type] = ingredient;
+      });
+    }
+    return map;
+  }
+
   void computeValues() {
-    ingredients.forEach((type, ingredient) {
+    Map<IngredientType, Ingredient> ingredientsMap = getIngredientsMap(ingredients);
+    Map<IngredientType, Ingredient> sourdoughSubIngredientsMap = getIngredientsMap(ingredientsMap[IngredientType.sourdough].subIngredients);
+
+    ingredientsMap.forEach((type, ingredient) {
       switch (type) {
         case IngredientType.sourdough:
           ingredient.value = flourAmount * ingredient.percent;
           break;
         case IngredientType.flour:
-          double sourdoughFlour = ingredients[IngredientType.sourdough]
-              .subIngredients[IngredientType.flour]
-              .value;
-          ingredient.value =
-              (flourAmount * ingredient.percent) - sourdoughFlour;
+          double sourdoughFlour = sourdoughSubIngredientsMap[IngredientType.flour].value;
+          ingredient.value = (flourAmount * ingredient.percent) - sourdoughFlour;
           break;
         case IngredientType.water:
-          double sourdoughWater = ingredients[IngredientType.sourdough]
-              .subIngredients[IngredientType.water]
-              .value;
-          ingredient.value =
-              (flourAmount * ingredient.percent) - sourdoughWater;
+          double sourdoughWater = sourdoughSubIngredientsMap[IngredientType.water].value;
+          ingredient.value = (flourAmount * ingredient.percent) - sourdoughWater;
           break;
-
         case IngredientType.salt:
         default:
           ingredient.value = flourAmount * ingredient.percent;
           break;
       }
-      computeSubIngredients(ingredient.value, ingredient.subIngredients);
+
+      ingredient.subIngredients = computeSubIngredients(ingredient.value, getIngredientsMap(ingredientsMap[type].subIngredients));
     });
+
+    ingredients = ingredientsMap.values.toList();
+  }
+
+  List<Ingredient> computeSubIngredients(double mainIngredientValue, Map<IngredientType, Ingredient> subIngredientsMap) {
+    if (subIngredientsMap != null) {
+      subIngredientsMap.forEach((subType, subIngredient) {
+        subIngredient.value = roundValueToDouble(mainIngredientValue * subIngredient.percent);
+      });
+    }
+    return subIngredientsMap.values.toList();
   }
 
   void setFlourAmount(int amount) {
@@ -59,13 +76,15 @@ class Recipe extends RecipeAbstract {
     if (parent == null) {
       ingredient.percent = percent;
     }
+
     if (parent != null && parent.subIngredients.length > 1) {
-      List<IngredientType> subIngredientKeys = parent.subIngredients.keys
+      Map<IngredientType, Ingredient> subIngredientsMap = getIngredientsMap(parent.subIngredients);
+      List<IngredientType> subIngredientKeys = subIngredientsMap.keys
           .toList()
           .where((type) => type != ingredient.type)
           .toList();
 
-      parent.subIngredients.forEach((type, subIngredient) {
+      subIngredientsMap.forEach((type, subIngredient) {
         if (type == ingredient.type) {
           subIngredient.percent = percent;
         } else {
@@ -73,26 +92,18 @@ class Recipe extends RecipeAbstract {
               (setPercent(100) - percent) / subIngredientKeys.length;
         }
       });
+
+      parent.subIngredients = subIngredientsMap.values.toList();
     }
 
     computeValues();
-  }
-
-  void computeSubIngredients(double mainIngredientValue,
-      Map<IngredientType, Ingredient> subIngredients) {
-    if (subIngredients != null) {
-      subIngredients.forEach((subType, subIngredient) {
-        subIngredient.value =
-            roundValueToDouble(mainIngredientValue * subIngredient.percent);
-      });
-    }
   }
 
   bool checkIsValid() {
     double allPercents = 0;
     double allValues = 0;
     bool isValid;
-    ingredients.forEach((type, ingredient) {
+    getIngredientsMap(ingredients).forEach((type, ingredient) {
       if (type != IngredientType.sourdough) {
         allPercents += ingredient.percent;
       }
@@ -103,21 +114,45 @@ class Recipe extends RecipeAbstract {
     return isValid;
   }
 
+  Recipe.fromJson(Map<String, dynamic> json) {
+    assert(json['flourAmount'] != null);
+    flourAmount = json['flourAmount'];
+
+    if (json['ingredients'] != null) {
+      ingredients = new List<Ingredient>();
+      json['ingredients'].forEach((v) {
+        ingredients.add(new Ingredient.fromJson(v));
+      });
+    }
+
+    computeValues();
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['flourAmount'] = this.flourAmount;
+    if (this.ingredients != null) {
+      data['ingredients'] = this.ingredients.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+
   String toString() {
+    return toJson().toString() + '\nIs Valid >> ' + checkIsValid().toString();
+  }
+
+  String prettyPrint() {
     String print = '=== isValid? ==> ${checkIsValid()} \n';
 
     print += 'Flour amount => $flourAmount \n';
 
-    ingredients.forEach((IngredientType type, Ingredient ingredient) {
+    ingredients.forEach((Ingredient ingredient) {
       print +=
           '   -- Ingredient: ${ingredient.name} [ ${printPercent(ingredient.percent)} => ${ingredient.value}g ] \n';
       if (ingredient.subIngredients != null) {
-        Map<IngredientType, Ingredient> subIngredients =
-            ingredient.subIngredients;
-        subIngredients
-            .forEach((IngredientType subType, Ingredient subIngredient) {
-          print +=
-              '   |     SubIngredient: ${subIngredient.name} [${printPercent(subIngredient.percent)} => ${subIngredient.value.toInt()}g ] \n';
+        List<Ingredient> subIngredients = ingredient.subIngredients;
+        subIngredients.forEach((Ingredient subIngredient) {
+          print += '   |     SubIngredient: ${subIngredient.name} [${printPercent(subIngredient.percent)} => ${subIngredient.value.toInt()}g ] \n';
         });
       }
     });

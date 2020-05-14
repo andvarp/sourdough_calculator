@@ -4,11 +4,16 @@ import 'package:sourdough_calculator/i18n/i18n_contants.dart';
 
 class I18nProvider extends ChangeNotifier {
   I18nProvider() {
-    fetchLocale();
+    loadInitialData();
   }
 
   Locale _appLocale = kDefaultLocale;
   Locale get appLocal => _appLocale ?? kDefaultLocale;
+
+  void loadInitialData() async {
+    await fetchLocale();
+    notifyListeners();
+  }
 
   fetchLocale() async {
     var prefs = await SharedPreferences.getInstance();

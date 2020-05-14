@@ -33,7 +33,8 @@ class _ResultsViewState extends State<ResultsView> {
 
     List<PieDataEntry> data = [];
 
-    _recipe.ingredients.forEach((type, ingredient) {
+
+    _recipe.ingredients.forEach((ingredient) {
       data.add(PieDataEntry(
         color: colors[data.length],
         sectionText: ingredient.name,
@@ -66,6 +67,10 @@ class _ResultsViewState extends State<ResultsView> {
             mapValueToString: (double value) => printKgAmount(value.toInt()),
           ),
           PieChartCard(data: getPieData(_provider.recipe)),
+          RaisedButton(
+            onPressed: () {_provider.safeToLocalStorage();},
+            child: const Text('Save to the phone', style: TextStyle(fontSize: 20)),
+          ),
         ],
       ),
     );

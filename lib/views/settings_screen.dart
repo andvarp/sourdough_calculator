@@ -46,7 +46,7 @@ class _SettingsViewState extends State<SettingsView> {
               ),
             ),
             Card(
-              child: Text(_provider.recipe.toString()),
+              child: Text(_provider.recipe.prettyPrint()),
             ),
             SampleChangeLocale(),
             SizedBox(
@@ -84,10 +84,10 @@ class _SettingsViewState extends State<SettingsView> {
 
   List<Widget> buildIngredients(
       {RecipeProvider provider,
-      Map<IngredientType, Ingredient> ingredients,
+      List<Ingredient> ingredients,
       Ingredient parent}) {
     List<Widget> widgets = [];
-    ingredients.forEach((type, ingredient) {
+    ingredients.forEach((ingredient) {
       if (ingredient.valueBounds != null) {
         widgets.add(buildIngredient(provider, ingredient, parent));
       }
