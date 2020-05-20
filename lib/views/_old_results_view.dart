@@ -7,12 +7,12 @@ import 'package:sourdough_calculator/utils.dart';
 import 'package:sourdough_calculator/widgets/pie_chart_card.dart';
 import 'package:sourdough_calculator/widgets/slider_with_label.dart';
 
-class ResultsView extends StatefulWidget {
+class OldResultsView extends StatefulWidget {
   @override
-  _ResultsViewState createState() => _ResultsViewState();
+  _OldResultsViewState createState() => _OldResultsViewState();
 }
 
-class _ResultsViewState extends State<ResultsView> {
+class _OldResultsViewState extends State<OldResultsView> {
   RecipeProvider _provider;
   int _flourAmount;
 
@@ -49,7 +49,7 @@ class _ResultsViewState extends State<ResultsView> {
   @override
   Widget build(BuildContext context) {
     _provider = Provider.of<RecipeProvider>(context);
-    _flourAmount = _provider.recipe.flourAmount;
+    _flourAmount = _provider.currentRecipe.flourAmount;
 
     return SingleChildScrollView(
       scrollDirection: Axis.vertical,
@@ -66,7 +66,7 @@ class _ResultsViewState extends State<ResultsView> {
             endLabel: printKgAmount(kSliderMax.toInt()),
             mapValueToString: (double value) => printKgAmount(value.toInt()),
           ),
-          PieChartCard(data: getPieData(_provider.recipe)),
+          PieChartCard(data: getPieData(_provider.currentRecipe)),
           RaisedButton(
             onPressed: () {_provider.safeToLocalStorage();},
             child: const Text('Save to the phone', style: TextStyle(fontSize: 20)),

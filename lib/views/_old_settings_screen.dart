@@ -6,12 +6,12 @@ import 'package:sourdough_calculator/i18n/sample_change_locale.dart';
 import 'package:sourdough_calculator/utils.dart';
 import 'package:sourdough_calculator/widgets/slider_with_label.dart';
 
-class SettingsView extends StatefulWidget {
+class OldSettingsView extends StatefulWidget {
   @override
-  _SettingsViewState createState() => _SettingsViewState();
+  _OldSettingsViewState createState() => _OldSettingsViewState();
 }
 
-class _SettingsViewState extends State<SettingsView> {
+class _OldSettingsViewState extends State<OldSettingsView> {
   RecipeProvider _provider;
   @override
   Widget build(BuildContext context) {

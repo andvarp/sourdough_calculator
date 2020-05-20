@@ -1,8 +1,10 @@
 import 'package:sourdough_calculator/data/ingredient.dart';
 import 'package:sourdough_calculator/constants.dart';
+import 'package:sourdough_calculator/logger.dart';
 import 'package:sourdough_calculator/utils.dart';
 
 abstract class RecipeAbstract {
+  String name;
   int flourAmount;
   List<Ingredient> ingredients;
   String toString();
@@ -10,9 +12,11 @@ abstract class RecipeAbstract {
 
 class Recipe extends RecipeAbstract{
   Recipe({
+    String name = "",
     int flourAmount = kInitialFlourAMount,
     List<Ingredient> ingredients = const <Ingredient>[],
   }) {
+    this.name = name;
     this.flourAmount = flourAmount;
     this.ingredients = ingredients;
 
@@ -115,6 +119,9 @@ class Recipe extends RecipeAbstract{
   }
 
   Recipe.fromJson(Map<String, dynamic> json) {
+    assert(json['name'] != null);
+    name = json['name'];
+
     assert(json['flourAmount'] != null);
     flourAmount = json['flourAmount'];
 
@@ -130,6 +137,7 @@ class Recipe extends RecipeAbstract{
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['name'] = this.name;
     data['flourAmount'] = this.flourAmount;
     if (this.ingredients != null) {
       data['ingredients'] = this.ingredients.map((v) => v.toJson()).toList();
@@ -144,6 +152,7 @@ class Recipe extends RecipeAbstract{
   String prettyPrint() {
     String print = '=== isValid? ==> ${checkIsValid()} \n';
 
+//    print += 'Name => $name \n';
     print += 'Flour amount => $flourAmount \n';
 
     ingredients.forEach((Ingredient ingredient) {

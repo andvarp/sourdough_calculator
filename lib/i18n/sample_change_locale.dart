@@ -9,7 +9,7 @@ class SampleChangeLocale extends StatelessWidget {
     return Container(
       child: Column(
         children: <Widget>[
-          Text(I18n.of(context).translate('title')),
+          Text(I18n.of(context).translate('app_bar_title')),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[

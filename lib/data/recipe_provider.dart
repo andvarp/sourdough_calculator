@@ -4,12 +4,16 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sourdough_calculator/data/recipe.dart';
 import 'package:sourdough_calculator/data/suggested_recipes.dart';
 import 'package:sourdough_calculator/data/ingredient.dart';
+import 'package:sourdough_calculator/logger.dart';
 
 class RecipeProvider extends ChangeNotifier {
-  Recipe recipe = recipe60;
+  Recipe currentRecipe = recipe60;
+  List<Recipe> suggestedRecipes = suggestedRecipesList;
+
 
   RecipeProvider() {
     loadInitialData();
+    logger.d(currentRecipe);
   }
 
   void loadInitialData() async{
@@ -20,27 +24,26 @@ class RecipeProvider extends ChangeNotifier {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     if (prefs.getString('RECIPE') == null) {
-      recipe = recipe60;
+      currentRecipe = recipe60;
       return;
     }
 
-    recipe = Recipe.fromJson(json.decode(prefs.getString('RECIPE')));
+    currentRecipe = Recipe.fromJson(json.decode(prefs.getString('RECIPE')));
     notifyListeners();
-
   }
 
   void safeToLocalStorage () async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString('RECIPE', json.encode(recipe.toJson()));
+    await prefs.setString('RECIPE', json.encode(currentRecipe.toJson()));
   }
 
   void changeFlourAmount(int amount) {
-    recipe.setFlourAmount(amount);
+    currentRecipe.setFlourAmount(amount);
     notifyListeners();
   }
 
   void changePercent(Ingredient ingredient, double percent, Ingredient parent) {
-    recipe.setIngredient(ingredient, percent, parent);
+    currentRecipe.setIngredient(ingredient, percent, parent);
     notifyListeners();
   }
 }

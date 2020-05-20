@@ -1,4 +1,11 @@
 {
-  "title": "Hello!",
-  "Message" : "This is English"
+  "lang": "English",
+  "app_bar_title": "Sourdough Calculator",
+
+  "nav_bar_item_home": "Home",
+  "nav_bar_item_settings": "Settings",
+  "nav_bar_item_bread": "Breads",
+  "nav_bar_item_timer": "Timer",
+
+  "home_screen_find_recipe": "Find Your \nRecipe"
 }

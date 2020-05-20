@@ -26,8 +26,12 @@ class I18n {
   }
 
   String translate(String key) {
-    return _localizedStrings[key];
+    String value = _localizedStrings[key] ?? "<no-key-found>";
+    assert(value != "<no-key-found>");
+    return value;
   }
+
+
 }
 
 class I18nDelegate extends LocalizationsDelegate<I18n> {
