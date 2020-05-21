@@ -13,7 +13,6 @@ class RecipeProvider extends ChangeNotifier {
 
   RecipeProvider() {
     loadInitialData();
-    logger.d(currentRecipe);
   }
 
   void loadInitialData() async{
@@ -32,7 +31,7 @@ class RecipeProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void safeToLocalStorage () async {
+  void safeToLocalStorage() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString('RECIPE', json.encode(currentRecipe.toJson()));
   }
@@ -45,5 +44,10 @@ class RecipeProvider extends ChangeNotifier {
   void changePercent(Ingredient ingredient, double percent, Ingredient parent) {
     currentRecipe.setIngredient(ingredient, percent, parent);
     notifyListeners();
+  }
+
+  void changeCurrentRecipe(Recipe newCurrentRecipe) {
+    currentRecipe = newCurrentRecipe;
+    safeToLocalStorage();
   }
 }

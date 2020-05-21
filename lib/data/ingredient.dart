@@ -10,6 +10,11 @@ enum IngredientType {
   other,
   sourdough,
   sugar,
+  honey,
+  raisins,
+  nuts,
+  cinnamon,
+  spices,
 }
 
 //enum subIngredientType {

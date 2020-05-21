@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:sourdough_calculator/data/recipe.dart';
 import 'package:sourdough_calculator/data/recipe_provider.dart';
 import 'package:sourdough_calculator/i18n/app_localizations.dart';
+import 'package:sourdough_calculator/logger.dart';
 
 String selectedCategorie = "All";
 
@@ -15,12 +16,86 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   final TextEditingController _searchControl = new TextEditingController();
+  bool isDirty = false;
+
+  List<Recipe> filterRecipes() {
+    String text = _searchControl.text;
+    List<Recipe> suggestedRecipesList =
+        Provider.of<RecipeProvider>(context).suggestedRecipes;
+    if (text == "") return suggestedRecipesList;
+    List<Recipe> filtered = suggestedRecipesList
+        .where(
+            (recipe) => recipe.name.toLowerCase().contains(text.toLowerCase()))
+        .toList();
+    return filtered;
+  }
+
+  Widget buildMyBreads(List<Recipe> recipes) {
+    if (recipes.length == 0) {
+      return Container(
+        height: 50,
+        child: Text('No matches'),
+      );
+    }
+    return Container(
+      height: 250,
+      child: ListView.builder(
+          itemCount: recipes.length,
+          shrinkWrap: true,
+          physics: ClampingScrollPhysics(),
+          scrollDirection: Axis.horizontal,
+          itemBuilder: (context, index) {
+            return SpecialistTile(
+                name: recipes[index].name,
+                imgAssetPath:
+                    'https://www.homemadefoodjunkie.com/wp-content/uploads/2017/11/IMG_1354-735x490.jpg',
+                backColor: Colors.amber.withOpacity(0.2 * (index + 1)),
+                onClick: () {
+                  Scaffold.of(context).showSnackBar(SnackBar(
+                      content: Text('Recipe changed to ${recipes[index].name}')));
+                  Provider.of<RecipeProvider>(context, listen: false)
+                      .changeCurrentRecipe(recipes[index]);
+                });
+          }),
+    );
+  }
+
+  Widget buildFeatured(List<Recipe> recipes) {
+    if (recipes.length == 0) {
+      return Container(
+        height: 50,
+        child: Text('No matches'),
+      );
+    }
+    return Container(
+      height: 250,
+      child: ListView.builder(
+          itemCount: recipes.length,
+          shrinkWrap: true,
+          physics: ClampingScrollPhysics(),
+          scrollDirection: Axis.horizontal,
+          itemBuilder: (context, index) {
+            return SpecialistTile(
+              name: recipes[index].name,
+              imgAssetPath:
+                  'https://www.homemadefoodjunkie.com/wp-content/uploads/2017/11/IMG_1354-735x490.jpg',
+              backColor: Colors.deepPurple.withOpacity(0.2 * (index + 1)),
+              onClick: () {},
+            );
+          }),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     I18n i18n = I18n.of(context);
+    List<Recipe> suggestedRecipes = filterRecipes();
 
-    List<Recipe> suggestedRecipes = Provider.of<RecipeProvider>(context).suggestedRecipes;
+    if (isDirty) {
+      setState(() {
+        isDirty = false;
+      });
+    }
 
     return SingleChildScrollView(
       child: Container(
@@ -59,13 +134,17 @@ class _HomeViewState extends State<HomeView> {
                     contentPadding: EdgeInsets.all(10.0),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10.0),
-                      borderSide: BorderSide(color: Colors.white,),
+                      borderSide: BorderSide(
+                        color: Colors.white,
+                      ),
                     ),
                     enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.white,),
+                      borderSide: BorderSide(
+                        color: Colors.white,
+                      ),
                       borderRadius: BorderRadius.circular(10.0),
                     ),
-                    hintText: "Search",
+                    hintText: i18n.translate('home_screen_search'),
                     prefixIcon: Icon(
                       Icons.search,
                       color: Colors.black,
@@ -77,15 +156,19 @@ class _HomeViewState extends State<HomeView> {
                   ),
                   maxLines: 1,
                   controller: _searchControl,
+                  onChanged: (text) {
+                    setState(() {
+                      isDirty = true;
+                    });
+                  },
                 ),
               ),
             ),
             SizedBox(
               height: 40,
             ),
-
             Text(
-              "My Breads",
+              i18n.translate('home_screen_my_breads'),
               style: TextStyle(
                   color: Colors.black87.withOpacity(0.8),
                   fontSize: 25,
@@ -94,28 +177,12 @@ class _HomeViewState extends State<HomeView> {
             SizedBox(
               height: 20,
             ),
-            Container(
-              height: 250,
-              child: ListView.builder(
-                  itemCount: suggestedRecipes.length,
-                  shrinkWrap: true,
-                  physics: ClampingScrollPhysics(),
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, index) {
-                    return SpecialistTile(
-                      name: suggestedRecipes[index].name,
-                      imgAssetPath: 'https://www.homemadefoodjunkie.com/wp-content/uploads/2017/11/IMG_1354-735x490.jpg',
-                      backColor: Colors.amber.withOpacity(0.2 * (index + 1)),
-                    );
-                  }),
-            ),
-
+            buildMyBreads(suggestedRecipes),
             SizedBox(
               height: 20,
             ),
-
             Text(
-              "Featured",
+              i18n.translate('home_screen_featured'),
               style: TextStyle(
                   color: Colors.black87.withOpacity(0.8),
                   fontSize: 25,
@@ -124,22 +191,7 @@ class _HomeViewState extends State<HomeView> {
             SizedBox(
               height: 20,
             ),
-            Container(
-              height: 250,
-              child: ListView.builder(
-                  itemCount: suggestedRecipes.length,
-                  shrinkWrap: true,
-                  physics: ClampingScrollPhysics(),
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, index) {
-                    return SpecialistTile(
-                      name: suggestedRecipes[index].name,
-                      imgAssetPath: 'https://www.homemadefoodjunkie.com/wp-content/uploads/2017/11/IMG_1354-735x490.jpg',
-                      backColor: Colors.deepPurple.withOpacity(0.2 * (index + 1)),
-                    );
-                  }),
-            ),
-
+            buildFeatured(suggestedRecipes),
             SizedBox(
               height: 30,
             ),
@@ -150,50 +202,16 @@ class _HomeViewState extends State<HomeView> {
   }
 }
 
-class CategorieTile extends StatefulWidget {
-  final String categorie;
-  final bool isSelected;
-  _HomeViewState context;
-  CategorieTile({this.categorie, this.isSelected, this.context});
-
-  @override
-  _CategorieTileState createState() => _CategorieTileState();
-}
-
-class _CategorieTileState extends State<CategorieTile> {
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        widget.context.setState(() {
-          selectedCategorie = widget.categorie;
-        });
-      },
-      child: Container(
-        alignment: Alignment.center,
-        padding: EdgeInsets.symmetric(horizontal: 20),
-        margin: EdgeInsets.only(left: 8),
-        height: 30,
-        decoration: BoxDecoration(
-            color: widget.isSelected ? Color(0xffFFD0AA) : Colors.white,
-            borderRadius: BorderRadius.circular(30)),
-        child: Text(
-          widget.categorie,
-          style: TextStyle(
-              color: widget.isSelected ? Color(0xffFC9535) : Color(0xffA1A1A1)),
-        ),
-      ),
-    );
-  }
-}
-
 class SpecialistTile extends StatefulWidget {
   final String name;
   final String imgAssetPath;
   final Color backColor;
+  final Function onClick;
   SpecialistTile(
-      {@required this.name, @required this.imgAssetPath,
-      @required this.backColor});
+      {@required this.name,
+      @required this.imgAssetPath,
+      @required this.backColor,
+      @required this.onClick});
 
   @override
   _SpecialistTileState createState() => _SpecialistTileState();
@@ -202,28 +220,31 @@ class SpecialistTile extends StatefulWidget {
 class _SpecialistTileState extends State<SpecialistTile> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 150,
-      margin: EdgeInsets.only(right: 16),
-      decoration: BoxDecoration(
-          color: widget.backColor, borderRadius: BorderRadius.circular(24)),
-      padding: EdgeInsets.only(top: 16, right: 16, left: 16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(
-            widget.name,
-            style: TextStyle(color: Colors.white, fontSize: 20),
-          ),
-          SizedBox(
-            height: 6,
-          ),
-          Image.network(
-            widget.imgAssetPath,
-            height: 160,
-            fit: BoxFit.cover,
-          )
-        ],
+    return GestureDetector(
+      onTap: widget.onClick,
+      child: Container(
+        width: 150,
+        margin: EdgeInsets.only(right: 16),
+        decoration: BoxDecoration(
+            color: widget.backColor, borderRadius: BorderRadius.circular(24)),
+        padding: EdgeInsets.only(top: 16, right: 16, left: 16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text(
+              widget.name,
+              style: TextStyle(color: Colors.white, fontSize: 20),
+            ),
+            SizedBox(
+              height: 6,
+            ),
+            Image.network(
+              widget.imgAssetPath,
+              height: 160,
+              fit: BoxFit.cover,
+            )
+          ],
+        ),
       ),
     );
   }

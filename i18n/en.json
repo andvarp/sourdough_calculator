@@ -7,5 +7,8 @@
   "nav_bar_item_bread": "Breads",
   "nav_bar_item_timer": "Timer",
 
-  "home_screen_find_recipe": "Find Your \nRecipe"
+  "home_screen_find_recipe": "Find Your \nRecipe",
+  "home_screen_my_breads" : "My Breads",
+  "home_screen_featured": "Featured",
+  "home_screen_search": "Search"
 }

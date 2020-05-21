@@ -46,7 +46,10 @@ class _OldSettingsViewState extends State<OldSettingsView> {
               ),
             ),
             Card(
-              child: Text(_provider.currentRecipe.prettyPrint()),
+              child: Text(
+                _provider.currentRecipe.prettyPrint(),
+                style: TextStyle(fontSize: 14.5),
+              ),
             ),
             SampleChangeLocale(),
             SizedBox(
@@ -61,23 +64,7 @@ class _OldSettingsViewState extends State<OldSettingsView> {
   Function onSliderChanged(
       RecipeProvider _provider, Ingredient ingredient, Ingredient parent) {
     return (double value) {
-      double newValue;
-      switch (ingredient.type) {
-        case IngredientType.whiteFlour:
-        case IngredientType.wholeFlour:
-        case IngredientType.fat:
-        case IngredientType.other:
-        case IngredientType.sourdough:
-        case IngredientType.sugar:
-        case IngredientType.flour:
-        case IngredientType.water:
-        case IngredientType.salt:
-          newValue = (value).roundToDouble();
-          break;
-        default:
-          break;
-      }
-
+      double newValue = (value).roundToDouble();
       _provider.changePercent(ingredient, setPercent(newValue.toInt()), parent);
     };
   }

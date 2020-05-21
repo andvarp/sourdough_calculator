@@ -161,7 +161,7 @@ class Recipe extends RecipeAbstract{
       if (ingredient.subIngredients != null) {
         List<Ingredient> subIngredients = ingredient.subIngredients;
         subIngredients.forEach((Ingredient subIngredient) {
-          print += '   |     SubIngredient: ${subIngredient.name} [${printPercent(subIngredient.percent)} => ${subIngredient.value.toInt()}g ] \n';
+          print += '   |      subIngr:      ${subIngredient.name} [${printPercent(subIngredient.percent)} => ${subIngredient.value.toInt()}g ] \n';
         });
       }
     });

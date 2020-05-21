@@ -38,6 +38,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-// TODO: Translate the app
-// TODO: update ui
-// https://github.com/pedromassango/bottom_navy_bar

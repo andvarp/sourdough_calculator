@@ -45,6 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
           child: PageView(
             controller: _pageController,
             allowImplicitScrolling: true,
+            physics: NeverScrollableScrollPhysics(),
             onPageChanged: (index) {
               setState(() => _selectedIndex = index);
             },

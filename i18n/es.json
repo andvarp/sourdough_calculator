@@ -7,6 +7,9 @@
   "nav_bar_item_bread": "Panes",
   "nav_bar_item_timer": "Temporizador",
 
-  "home_screen_find_recipe": "Encuentre su \nReceta"
+  "home_screen_find_recipe": "Encuentre su \nReceta",
+  "home_screen_my_breads" : "Mis Panes",
+  "home_screen_featured": "Destacados",
+  "home_screen_search": "Buscar"
 
 }

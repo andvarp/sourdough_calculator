@@ -29,6 +29,11 @@ class _OldResultsViewState extends State<OldResultsView> {
       Color(0xfff8b250),
       Color(0xff0293ee),
       Color(0xff13d38e),
+
+      Color(0xff13d38e),
+      Color(0xff13d38e),
+      Color(0xff13d38e),
+      Color(0xff13d38e),
     ];
 
     List<PieDataEntry> data = [];
