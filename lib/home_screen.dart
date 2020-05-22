@@ -1,4 +1,3 @@
-import 'package:backdrop/backdrop.dart';
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttericon/font_awesome5_icons.dart';
@@ -6,8 +5,9 @@ import 'package:shake/shake.dart';
 import 'package:sourdough_calculator/i18n/app_localizations.dart';
 import 'package:sourdough_calculator/logger.dart';
 import 'package:sourdough_calculator/views/_old_results_view.dart';
-import 'package:sourdough_calculator/views/_old_settings_screen.dart';
 import 'package:sourdough_calculator/views/home_view.dart';
+import 'package:sourdough_calculator/views/recipe_view.dart';
+import 'package:sourdough_calculator/views/settings_view.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -25,6 +25,8 @@ class _HomeScreenState extends State<HomeScreen> {
     _pageController = PageController();
     _detector = ShakeDetector.autoStart(onPhoneShake: () {
       logger.d('Shake!!!!!');
+      Scaffold.of(context).showSnackBar(SnackBar(
+          content: Text('Shake!!!!!')));
     });
   }
 
@@ -51,14 +53,11 @@ class _HomeScreenState extends State<HomeScreen> {
             },
             children: <Widget>[
               HomeView(),
-              OldResultsView(),
-              OldSettingsView(),
+              RecipeView(),
               Container(
                 color: Colors.teal,
               ),
-              Container(
-                color: Colors.blueGrey,
-              ),
+              SettingsView(),
             ],
           ),
         ),

@@ -4,7 +4,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sourdough_calculator/data/recipe.dart';
 import 'package:sourdough_calculator/data/suggested_recipes.dart';
 import 'package:sourdough_calculator/data/ingredient.dart';
-import 'package:sourdough_calculator/logger.dart';
 
 class RecipeProvider extends ChangeNotifier {
   Recipe currentRecipe = recipe60;

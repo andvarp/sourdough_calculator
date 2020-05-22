@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sourdough_calculator/i18n/i18n_contants.dart';
+import 'package:sourdough_calculator/i18n/i18n_constants.dart';
 
 class I18nProvider extends ChangeNotifier {
   I18nProvider() {

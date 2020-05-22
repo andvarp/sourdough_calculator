@@ -1,6 +1,5 @@
 import 'package:sourdough_calculator/data/ingredient.dart';
 import 'package:sourdough_calculator/constants.dart';
-import 'package:sourdough_calculator/logger.dart';
 import 'package:sourdough_calculator/utils.dart';
 
 abstract class RecipeAbstract {
@@ -103,7 +102,7 @@ class Recipe extends RecipeAbstract{
     computeValues();
   }
 
-  bool checkIsValid() {
+  Map<String, dynamic> checkIsValid() {
     double allPercents = 0;
     double allValues = 0;
     bool isValid;
@@ -114,8 +113,13 @@ class Recipe extends RecipeAbstract{
       allValues += ingredient.value;
     });
 
-    isValid = allPercents * flourAmount == allValues;
-    return isValid;
+    double calculatedValues = allPercents * flourAmount;
+    isValid = calculatedValues == allValues;
+    return <String, dynamic>{
+      "isValid": isValid,
+      "allValues": allValues,
+      "calculatedValues": calculatedValues,
+    };
   }
 
   Recipe.fromJson(Map<String, dynamic> json) {
@@ -150,9 +154,9 @@ class Recipe extends RecipeAbstract{
   }
 
   String prettyPrint() {
-    String print = '=== isValid? ==> ${checkIsValid()} \n';
+    String print = '=== isValid? ==> ${checkIsValid().toString()} \n';
 
-//    print += 'Name => $name \n';
+    print += 'Name => $name \n';
     print += 'Flour amount => $flourAmount \n';
 
     ingredients.forEach((Ingredient ingredient) {

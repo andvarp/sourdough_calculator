@@ -29,25 +29,6 @@ class _SettingsViewState extends State<SettingsView> {
             SizedBox(
               height: 10.0,
             ),
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(16.0),
-                  topRight: Radius.circular(16.0),
-                ),
-                color: Colors.teal,
-              ),
-              child: Column(
-                children: buildIngredients(
-                  provider: _provider,
-                  ingredients: _provider.currentRecipe.ingredients,
-                  parent: null,
-                ),
-              ),
-            ),
-            Card(
-              child: Text(_provider.currentRecipe.prettyPrint()),
-            ),
             SampleChangeLocale(),
             SizedBox(
               height: 40.0,
@@ -61,23 +42,7 @@ class _SettingsViewState extends State<SettingsView> {
   Function onSliderChanged(
       RecipeProvider _provider, Ingredient ingredient, Ingredient parent) {
     return (double value) {
-      double newValue;
-      switch (ingredient.type) {
-        case IngredientType.whiteFlour:
-        case IngredientType.wholeFlour:
-        case IngredientType.fat:
-        case IngredientType.other:
-        case IngredientType.sourdough:
-        case IngredientType.sugar:
-        case IngredientType.flour:
-        case IngredientType.water:
-        case IngredientType.salt:
-          newValue = (value).roundToDouble();
-          break;
-        default:
-          break;
-      }
-
+      double newValue = (value).roundToDouble();
       _provider.changePercent(ingredient, setPercent(newValue.toInt()), parent);
     };
   }

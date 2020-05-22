@@ -33,6 +33,7 @@ dependencies:
   bottom_navy_bar: ^5.4.0
   fluttericon: ^1.0.7
   shake: ^0.1.0
+  expandable: ^4.1.4
   flutter_localizations:
     sdk: flutter
 

@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
-import 'package:sourdough_calculator/i18n/i18n_contants.dart';
+import 'package:sourdough_calculator/i18n/i18n_constants.dart';
 
 class I18n {
   I18n(this.locale);
