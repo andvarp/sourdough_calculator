@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:sourdough_calculator/i18n/i18n_provider.dart';
-import 'package:sourdough_calculator/home_screen.dart';
+import 'package:sourdough_calculator/router.dart';
 import 'package:sourdough_calculator/data/recipe_provider.dart';
 import 'package:sourdough_calculator/i18n/app_localizations.dart';
 import 'package:sourdough_calculator/i18n/i18n_constants.dart';
@@ -11,6 +11,15 @@ import 'package:sourdough_calculator/i18n/i18n_constants.dart';
 //import 'dart:math' as math;
 
 void main() => runApp(MyApp());
+
+// TODO: Use this in the headlines
+// https://pub.dev/packages/auto_size_text
+
+// TODO: Use this when loading data
+// https://pub.dev/packages/shimmer#-example-tab-
+
+// TODO: Implement this Oauth with apple
+// https://pub.dev/packages/sign_in_with_apple
 
 class MyApp extends StatelessWidget {
   @override
@@ -34,7 +43,9 @@ class MyApp extends StatelessWidget {
               GlobalWidgetsLocalizations.delegate,
               I18nDelegate(i18nProvider.appLocal),
             ],
-            home: HomeScreen(),
+            initialRoute: initialRoute,
+            onGenerateRoute: Router.generateRoute,
+            onUnknownRoute: Router.generateUnknownRoute,
           );
         },
       ),

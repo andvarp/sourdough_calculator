@@ -202,6 +202,7 @@ class _IngredientBarState extends State<IngredientBar> {
     }
 
     return Container(
+      padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.stretch,

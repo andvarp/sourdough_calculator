@@ -10,6 +10,8 @@ import 'package:sourdough_calculator/views/recipe_view.dart';
 import 'package:sourdough_calculator/views/settings_view.dart';
 
 class HomeScreen extends StatefulWidget {
+  static String route = '/';
+
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
