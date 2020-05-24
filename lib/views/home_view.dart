@@ -49,7 +49,8 @@ class _HomeViewState extends State<HomeView> {
                 backColor: Colors.amber.withOpacity(0.2 * (index + 1)),
                 onClick: () {
                   Scaffold.of(context).showSnackBar(SnackBar(
-                      content: Text('Recipe changed to ${recipes[index].name}')));
+                      content:
+                          Text('Recipe changed to ${recipes[index].name}')));
                   Provider.of<RecipeProvider>(context, listen: false)
                       .changeCurrentRecipe(recipes[index]);
                 });
@@ -167,9 +168,10 @@ class _HomeViewState extends State<HomeView> {
             Text(
               i18n.translate('home_screen_my_breads'),
               style: TextStyle(
-                  color: Colors.black87.withOpacity(0.8),
-                  fontSize: 25,
-                  fontWeight: FontWeight.w600),
+                color: Colors.black87.withOpacity(0.8),
+                fontSize: 25,
+                fontWeight: FontWeight.w600,
+              ),
             ),
             SizedBox(
               height: 20,
@@ -181,9 +183,10 @@ class _HomeViewState extends State<HomeView> {
             Text(
               i18n.translate('home_screen_featured'),
               style: TextStyle(
-                  color: Colors.black87.withOpacity(0.8),
-                  fontSize: 25,
-                  fontWeight: FontWeight.w600),
+                color: Colors.black87.withOpacity(0.8),
+                fontSize: 25,
+                fontWeight: FontWeight.w600,
+              ),
             ),
             SizedBox(
               height: 20,

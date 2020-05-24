@@ -112,8 +112,7 @@ class Recipe extends RecipeAbstract{
       }
       allValues += ingredient.value;
     });
-
-    double calculatedValues = allPercents * flourAmount;
+    double calculatedValues = (allPercents * flourAmount).roundToDouble();
     isValid = calculatedValues == allValues;
     return <String, dynamic>{
       "isValid": isValid,

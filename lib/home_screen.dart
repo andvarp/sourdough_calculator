@@ -4,8 +4,8 @@ import 'package:fluttericon/font_awesome5_icons.dart';
 import 'package:shake/shake.dart';
 import 'package:sourdough_calculator/i18n/app_localizations.dart';
 import 'package:sourdough_calculator/logger.dart';
-import 'package:sourdough_calculator/views/_old_results_view.dart';
 import 'package:sourdough_calculator/views/home_view.dart';
+import 'package:sourdough_calculator/views/recipe_edit_view.dart';
 import 'package:sourdough_calculator/views/recipe_view.dart';
 import 'package:sourdough_calculator/views/settings_view.dart';
 
@@ -54,9 +54,7 @@ class _HomeScreenState extends State<HomeScreen> {
             children: <Widget>[
               HomeView(),
               RecipeView(),
-              Container(
-                color: Colors.teal,
-              ),
+              RecipeEditView(),
               SettingsView(),
             ],
           ),
@@ -66,7 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
         selectedIndex: _selectedIndex,
         onItemSelected: (index) {
           setState(() => _selectedIndex = index);
-          _pageController.jumpToPage(index);
+          _pageController.animateToPage(index, duration: Duration(milliseconds: 400), curve: Curves.decelerate,);
         },
         items: <BottomNavyBarItem>[
           BottomNavyBarItem(

@@ -9,12 +9,12 @@ import 'package:sourdough_calculator/utils.dart';
 import 'package:sourdough_calculator/widgets/pie_chart_card.dart';
 import 'package:sourdough_calculator/widgets/slider_with_label.dart';
 
-class RecipeView extends StatefulWidget {
+class RecipeEditView extends StatefulWidget {
   @override
-  _RecipeViewState createState() => _RecipeViewState();
+  _RecipeEditViewState createState() => _RecipeEditViewState();
 }
 
-class _RecipeViewState extends State<RecipeView> {
+class _RecipeEditViewState extends State<RecipeEditView> {
   List<PieDataEntry> getPieData(Recipe _recipe) {
     List<Color> colors = [
       Color(0xff845bef),
