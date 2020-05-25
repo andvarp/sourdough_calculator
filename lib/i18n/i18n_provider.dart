@@ -16,19 +16,19 @@ class I18nProvider extends ChangeNotifier {
   }
 
   fetchLocale() async {
-    var prefs = await SharedPreferences.getInstance();
+    var preferences = await SharedPreferences.getInstance();
 
-    if (prefs.getString(languageCodeStoreKey) == null) {
+    if (preferences.getString(languageCodeStoreKey) == null) {
       _appLocale = kDefaultLocale;
       return Null;
     }
 
-    _appLocale = Locale(prefs.getString(languageCodeStoreKey));
+    _appLocale = Locale(preferences.getString(languageCodeStoreKey));
     return Null;
   }
 
   void changeLanguage(Locale type) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+    SharedPreferences preferences = await SharedPreferences.getInstance();
 
     if (_appLocale == type) {
       return;
@@ -36,12 +36,12 @@ class I18nProvider extends ChangeNotifier {
 
     if (type == Locale("es")) {
       _appLocale = Locale("es");
-      await prefs.setString(languageCodeStoreKey, 'es');
-      await prefs.setString(countryCodeStoreKey, '');
+      await preferences.setString(languageCodeStoreKey, 'es');
+      await preferences.setString(countryCodeStoreKey, '');
     } else {
       _appLocale = Locale("en");
-      await prefs.setString(languageCodeStoreKey, 'en');
-      await prefs.setString(countryCodeStoreKey, 'US');
+      await preferences.setString(languageCodeStoreKey, 'en');
+      await preferences.setString(countryCodeStoreKey, 'US');
     }
 
     notifyListeners();

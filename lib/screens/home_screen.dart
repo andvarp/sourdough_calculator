@@ -1,9 +1,14 @@
+import 'dart:async';
+
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttericon/font_awesome5_icons.dart';
+import 'package:provider/provider.dart';
 import 'package:shake/shake.dart';
+import 'package:sourdough_calculator/data/auth_provider.dart';
 import 'package:sourdough_calculator/i18n/app_localizations.dart';
 import 'package:sourdough_calculator/logger.dart';
+import 'package:sourdough_calculator/screens/login_screen.dart';
 import 'package:sourdough_calculator/views/home_view.dart';
 import 'package:sourdough_calculator/views/recipe_edit_view.dart';
 import 'package:sourdough_calculator/views/recipe_view.dart';
@@ -41,6 +46,12 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget build(BuildContext context) {
     I18n i18n = I18n.of(context);
+
+    AuthProvider authProvider = Provider.of<AuthProvider>(context);
+
+    if (!authProvider.isLoggedIn()) {
+      scheduleMicrotask(() => Navigator.popAndPushNamed(context, LoginScreen.route));
+    }
 
     return Scaffold(
       body: SafeArea(

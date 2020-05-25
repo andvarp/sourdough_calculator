@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
+import 'package:sourdough_calculator/data/auth_provider.dart';
 import 'package:sourdough_calculator/i18n/i18n_provider.dart';
 import 'package:sourdough_calculator/router.dart';
 import 'package:sourdough_calculator/data/recipe_provider.dart';
@@ -26,15 +27,16 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => RecipeProvider()),
         ChangeNotifierProvider(create: (_) => I18nProvider()),
+        ChangeNotifierProvider(create: (_) => AuthProvider()),
+        ChangeNotifierProvider(create: (_) => RecipeProvider()),
       ],
       child: Consumer<I18nProvider>(
         builder: (context, i18nProvider, _) {
           return MaterialApp(
             title: 'Sourdough calculator',
             theme: ThemeData(
-              primarySwatch: Colors.orange,
+              primarySwatch: Colors.deepOrange,
             ),
             locale: i18nProvider.appLocal,
             supportedLocales: kSupportedLocalesMap.values.toList(),
