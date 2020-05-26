@@ -1,3 +1,5 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
@@ -23,6 +25,8 @@ void main() => runApp(MyApp());
 // https://pub.dev/packages/sign_in_with_apple
 
 class MyApp extends StatelessWidget {
+  FirebaseAnalytics analytics = FirebaseAnalytics();
+
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -48,6 +52,9 @@ class MyApp extends StatelessWidget {
             initialRoute: initialRoute,
             onGenerateRoute: Router.generateRoute,
             onUnknownRoute: Router.generateUnknownRoute,
+            navigatorObservers: [
+              FirebaseAnalyticsObserver(analytics: analytics),
+            ],
           );
         },
       ),

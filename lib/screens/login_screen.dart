@@ -112,7 +112,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       buttonState =
                           value ? ButtonState.success : ButtonState.fail;
                     });
-                    navigateToHomeScreen(context);
+                    if (value != null){
+                      navigateToHomeScreen(context);
+                    }
                   });
                 }
               },
