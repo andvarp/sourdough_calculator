@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sourdough_calculator/constants.dart';
+import 'package:sourdough_calculator/logger.dart';
 import 'package:sourdough_calculator/services/auth_service.dart';
 
 class AuthProvider extends ChangeNotifier {

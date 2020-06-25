@@ -27,6 +27,7 @@ dependencies:
   firebase_core: ^0.4.5
   firebase_analytics: ^5.0.14
   cloud_firestore: ^0.13.6
+  firebase_crashlytics: ^0.1.3+3
   google_sign_in: ^4.5.1
   flutter_launcher_icons: ^0.7.4
   flutter_fluid_slider: ^1.0.2

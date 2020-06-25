@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
@@ -13,13 +16,29 @@ import 'package:sourdough_calculator/i18n/i18n_constants.dart';
 //import 'package:expandable/expandable.dart';
 //import 'dart:math' as math;
 
-void main() => runApp(MyApp());
+void main() {
+  // Set `enableInDevMode` to true to see reports while in debug mode
+  // This is only to be used for confirming that reports are being
+  // submitted as expected. It is not intended to be used for everyday
+  // development.
+  //  Crashlytics.instance.enableInDevMode = true;
+
+  // Pass all uncaught errors from the framework to Crashlytics.
+  FlutterError.onError = Crashlytics.instance.recordFlutterError;
+
+  runZoned(() {
+    runApp(MyApp());
+  }, onError: Crashlytics.instance.recordError);
+}
 
 // TODO: Use this in the headlines
 // https://pub.dev/packages/auto_size_text
 
 // TODO: Use this when loading data
 // https://pub.dev/packages/shimmer#-example-tab-
+
+// TODO: Add this feature
+// https://pub.dev/packages/wakelock
 
 // TODO: Implement this Oauth with apple
 // https://pub.dev/packages/sign_in_with_apple

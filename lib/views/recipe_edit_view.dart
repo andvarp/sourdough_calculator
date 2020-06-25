@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -5,6 +7,7 @@ import 'package:sourdough_calculator/constants.dart';
 import 'package:sourdough_calculator/data/ingredient.dart';
 import 'package:sourdough_calculator/data/recipe.dart';
 import 'package:sourdough_calculator/data/recipe_provider.dart';
+import 'package:sourdough_calculator/logger.dart';
 import 'package:sourdough_calculator/utils.dart';
 import 'package:sourdough_calculator/widgets/pie_chart_card.dart';
 import 'package:sourdough_calculator/widgets/slider_with_label.dart';
@@ -47,6 +50,9 @@ class _RecipeEditViewState extends State<RecipeEditView> {
     RecipeProvider recipeProvider = Provider.of<RecipeProvider>(context);
     Recipe recipe = recipeProvider.currentRecipe;
     double width = MediaQuery.of(context).size.width;
+
+    logger.d(jsonEncode({"test":"test"}));
+    logger.d(jsonEncode(recipe.toJson()));
 
     return SingleChildScrollView(
       child: Container(

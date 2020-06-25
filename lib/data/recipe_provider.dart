@@ -10,24 +10,27 @@ class RecipeProvider extends ChangeNotifier {
   Recipe currentRecipe = recipe60;
   List<Recipe> suggestedRecipes = suggestedRecipesList;
 
-
   RecipeProvider() {
     loadInitialData();
   }
 
-  void loadInitialData() async{
+  void loadInitialData() async {
     await loadLocalStorage();
   }
 
   Future<void> loadLocalStorage() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
 
+    // Turn this on when changing the attributes in Recipe class
+    await preferences.clear();
+
     if (preferences.getString(kLSRecipe) == null) {
       currentRecipe = recipe60;
       return;
     }
 
-    currentRecipe = Recipe.fromJson(json.decode(preferences.getString(kLSRecipe)));
+    currentRecipe =
+        Recipe.fromJson(json.decode(preferences.getString(kLSRecipe)));
     notifyListeners();
   }
 

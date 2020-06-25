@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:sourdough_calculator/data/recipe.dart';
 
 Map<String, dynamic> recipe60Json = {
@@ -65,6 +66,10 @@ Map<String, dynamic> recipe60Json = {
       "valueBounds": [0.0, 10.0],
     }
   ],
+  "isPrivate": true,
+  "uid": "",
+  "createdAt": Timestamp.now(),
+  "modifiedAt": null
 };
 
 Map<String, dynamic> recipe70Json = {
@@ -132,6 +137,10 @@ Map<String, dynamic> recipe70Json = {
       "valueBounds": [0.0, 10.0],
     }
   ],
+  "isPrivate": true,
+  "uid": "",
+  "createdAt": Timestamp.now(),
+  "modifiedAt": null
 };
 
 Map<String, dynamic> recipeWholeWheatJson = {
@@ -199,6 +208,10 @@ Map<String, dynamic> recipeWholeWheatJson = {
       "valueBounds": [0.0, 10.0],
     }
   ],
+  "isPrivate": true,
+  "uid": "",
+  "createdAt": Timestamp.now(),
+  "modifiedAt": null
 };
 
 Map<String, dynamic> recipeHoneyRaisinsJson = {
@@ -294,6 +307,10 @@ Map<String, dynamic> recipeHoneyRaisinsJson = {
       "valueBounds": [0.0, 40.0],
     }
   ],
+  "isPrivate": true,
+  "uid": "",
+  "createdAt": Timestamp.now(),
+  "modifiedAt": null
 };
 
 Recipe recipe60 = Recipe.fromJson(recipe60Json);
@@ -307,5 +324,3 @@ List<Recipe> suggestedRecipesList = <Recipe>[
   recipeWholeWheat,
   recipeHoneyRaisins
 ];
-
-

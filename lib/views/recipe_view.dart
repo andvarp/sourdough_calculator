@@ -27,7 +27,7 @@ class _RecipeViewState extends State<RecipeView> {
       onVisibilityChanged: (VisibilityInfo info) {
         setState(() {
           isVisible = info.visibleFraction != 0.0 ? true : false;
-          logger.d(isVisible);
+//          logger.d(isVisible);
         });
       },
       child: SingleChildScrollView(
