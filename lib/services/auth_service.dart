@@ -1,11 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sourdough_calculator/logger.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 final GoogleSignIn googleSignIn = GoogleSignIn();
 
-Future<FirebaseUser> signInWithGoogle() async {
+Future<FirebaseUser> signInWithGoogle(BuildContext context) async {
   FirebaseUser user;
   try {
     final GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
@@ -28,6 +30,7 @@ Future<FirebaseUser> signInWithGoogle() async {
 
     return user;
   } catch(error) {
+    Scaffold.of(context).showSnackBar(SnackBar(content: Text(error)));
     print(error);
     print(user);
     logger.e(error);

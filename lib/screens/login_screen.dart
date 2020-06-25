@@ -107,7 +107,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   setState(() {
                     buttonState = ButtonState.loading;
                   });
-                  authProvider.signIn().then((value) {
+                  authProvider.signIn(context).then((value) {
                     setState(() {
                       buttonState =
                           value ? ButtonState.success : ButtonState.fail;

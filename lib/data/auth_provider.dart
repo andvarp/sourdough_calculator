@@ -24,11 +24,11 @@ class AuthProvider extends ChangeNotifier {
     }
   }
 
-  Future<bool> signIn() async{
+  Future<bool> signIn(BuildContext context) async{
     SharedPreferences preferences = await SharedPreferences.getInstance();
 
     try {
-      currentUser = await signInWithGoogle();
+      currentUser = await signInWithGoogle(context);
     } catch (error) {
       currentUser = null;
     }
