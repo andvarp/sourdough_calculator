@@ -17,7 +17,7 @@ class AuthProvider extends ChangeNotifier {
     isFirstLogin = await getIsFirstLogin();
 
     if (!isFirstLogin) {
-      await signIn();
+      await signIn(null);
     }
     else{
       notifyListeners();
@@ -43,7 +43,7 @@ class AuthProvider extends ChangeNotifier {
   void signOut() async{
     SharedPreferences preferences = await SharedPreferences.getInstance();
 
-    signInWithGoogle();
+    signOutGoogle();
     currentUser = null;
 
     preferences.setBool(kLSAuth, currentUser != null);

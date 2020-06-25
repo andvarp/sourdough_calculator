@@ -30,7 +30,9 @@ Future<FirebaseUser> signInWithGoogle(BuildContext context) async {
 
     return user;
   } catch(error) {
-    Scaffold.of(context).showSnackBar(SnackBar(content: Text(error)));
+    if(context != null) {
+      Scaffold.of(context).showSnackBar(SnackBar(content: Text(error)));
+    }
     print(error);
     print(user);
     logger.e(error);
