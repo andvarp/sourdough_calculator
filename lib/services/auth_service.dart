@@ -1,10 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:sourdough_calculator/logger.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 final GoogleSignIn googleSignIn = GoogleSignIn();
 
 Future<FirebaseUser> signInWithGoogle() async {
+  FirebaseUser user;
   try {
     final GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
     final GoogleSignInAuthentication googleSignInAuthentication =
@@ -16,7 +18,7 @@ Future<FirebaseUser> signInWithGoogle() async {
     );
 
     final AuthResult authResult = await _auth.signInWithCredential(credential);
-    final FirebaseUser user = authResult.user;
+    user = authResult.user;
 
     assert(!user.isAnonymous);
     assert(await user.getIdToken() != null);
@@ -26,6 +28,10 @@ Future<FirebaseUser> signInWithGoogle() async {
 
     return user;
   } catch(error) {
+    print(error);
+    print(user);
+    logger.e(error);
+    logger.e(user);
     return null;
   }
 }

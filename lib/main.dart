@@ -8,6 +8,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:sourdough_calculator/data/auth_provider.dart';
 import 'package:sourdough_calculator/i18n/i18n_provider.dart';
+import 'package:sourdough_calculator/logger.dart';
 import 'package:sourdough_calculator/router.dart';
 import 'package:sourdough_calculator/data/recipe_provider.dart';
 import 'package:sourdough_calculator/i18n/app_localizations.dart';
@@ -28,7 +29,14 @@ void main() {
 
   runZoned(() {
     runApp(MyApp());
-  }, onError: Crashlytics.instance.recordError);
+  }, onError: recordError);
+}
+
+Future<void> recordError(dynamic exception, StackTrace stack, {dynamic context}) async {
+  logger.e(exception);
+  logger.e(stack);
+  logger.e(context);
+  Crashlytics.instance.recordError(exception, stack, context: context);
 }
 
 // TODO: Use this in the headlines
